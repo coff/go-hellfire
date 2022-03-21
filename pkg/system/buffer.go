@@ -15,6 +15,8 @@ func (b *Buffer) Bootstrap(cfg *config.Config) error {
 
 	b.SensorArray = make(map[config.SensorRole]sensor.ISensor)
 
+	b.BootstrapMqttClient(&cfg.MqttClient)
+
 	for _, sensorCfg := range cfg.Sensors {
 		if sensorCfg.System != config.Buffer {
 			continue

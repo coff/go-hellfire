@@ -54,10 +54,19 @@ type ReportConfig struct {
 	Role    SensorRole     `yaml:"role"`
 }
 
+type MqttClientConfig struct {
+	ClientId string `yaml:"client-id"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+}
+
 type Config struct {
-	Filepath string
-	Sensors  []SensorConfig `yaml:"sensors"`
-	Reports  []ReportConfig `yaml:"reports"`
+	Filepath   string
+	Sensors    []SensorConfig   `yaml:"sensors"`
+	Reports    []ReportConfig   `yaml:"reports"`
+	MqttClient MqttClientConfig `yaml:"mqtt-client"`
 }
 
 func (c *Config) Load() error {
