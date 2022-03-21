@@ -8,20 +8,23 @@ import (
 
 type Buffer struct {
 	System
-	SensorArray map[config.SensorRole]*sensor.ISensor
+	SensorArray map[config.SensorRole]sensor.ISensor
 }
 
-func (b *Buffer) Bootstrap(cfg config.Config) error {
+func (b *Buffer) Bootstrap(cfg *config.Config) error {
+
+	b.SensorArray = make(map[config.SensorRole]sensor.ISensor)
+
 	for _, sensorCfg := range cfg.Sensors {
 		if sensorCfg.System != config.Buffer {
 			continue
 		}
 
-		var newSensor *sensor.ISensor
+		var newSensor sensor.ISensor
 		var err error
 		switch sensorCfg.Datasource {
 		case config.Mqtt:
-			*newSensor, err = b.BootstrapMqttSensor(sensorCfg)
+			newSensor, err = b.BootstrapMqttSensor(&sensorCfg)
 		}
 
 		if err != nil {

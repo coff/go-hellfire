@@ -16,7 +16,8 @@ type System struct {
 	Client mqtt.Client
 }
 
-func (s *System) BootstrapMqttSensor(sensorCfg config.SensorConfig) (*sensor.MqttSensor, error) {
+func (s *System) BootstrapMqttSensor(sensorCfg *config.SensorConfig) (*sensor.MqttSensor, error) {
+
 	duration, err := time.ParseDuration(sensorCfg.MaxReadingAge)
 
 	if err != nil {
@@ -24,7 +25,7 @@ func (s *System) BootstrapMqttSensor(sensorCfg config.SensorConfig) (*sensor.Mqt
 	}
 
 	opts := &sensor.Options{Name: sensorCfg.Name, MaxReadingAge: duration}
-
+	fmt.Println(sensorCfg.Address)
 	newSensor := sensor.NewMqttSensor(opts)
 
 	s.Client.Subscribe(sensorCfg.Address, 1, newSensor.Update)

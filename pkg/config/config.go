@@ -65,10 +65,14 @@ func (c *Config) Load() error {
 	if err != nil {
 		return fmt.Errorf("config load failed with following reason: %w", err)
 	}
+	defer f.Close()
 
 	decoder := yaml.NewDecoder(f)
-	decoder.Decode(c)
-	defer f.Close()
+	err = decoder.Decode(c)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
